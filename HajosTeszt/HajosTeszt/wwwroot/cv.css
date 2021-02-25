@@ -22,7 +22,7 @@ a {
 }
 
     a:hover {
-        /* vegyük észre, hogy örökli a tulajdonságokat a szülőtől, egyet közülük felülírunk*/
+        
         background-color: fuchsia;
     }
 
@@ -31,6 +31,10 @@ span {
     font-style: italic;
     color: fuchsia;
     font-size: 40px;
+}
+
+ul {
+    list-style-image: url("pingvinsor.png");
 }
 
 #listak {
