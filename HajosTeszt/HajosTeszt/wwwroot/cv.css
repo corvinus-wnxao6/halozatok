@@ -34,18 +34,13 @@ span {
 }
 
 ul {
-    list-style-image: url("pingvinsor.png");
+    list-style-type: square;
 }
 
 #listak {
     background-color: lightgrey;
 }
 
-.megisfeher {
-    background-color: white;
-    width: 100px;
-    border-radius: 25px;
-}
 
 .sorrendi {
     font-style: italic;
