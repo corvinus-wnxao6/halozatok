@@ -16,24 +16,54 @@
 }
 
 #header {
-    background-color: tomato;
+    background-color: #a56cc1;
 }
 
 #nav {
-    background: deepskyblue;
+    background: #a6acec;
 }
 
 #article {
     text-align: left;
-    background: gold;
+    background: #ace7ef;
 }
 
 #aside {
-    background-color: lightgreen;
+    background-color: #cefff1;
 }
 
+
 #footer {
-    background: hotpink;
+    background: #ecfffb;
+}
+
+span{
+    font-weight: bold;
+    font-style: italic;
+    color: #a56cc1;
+    font-size: 30px;
+}
+
+#menu:hover {
+    color: #ffcef3;
+}
+
+#videolink {
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #cabbe9;
+    color: white;
+}
+
+img {
+    display:block ;
+    width:200px;
+    margin: auto;
+}
+
+h2 {
+    font-style: italic;
+    color: #a56cc1;
 }
 
 /* menü */
@@ -59,7 +89,7 @@
 
     #main {
         display: flex;
-        flex-wrap: wrap;
+        /*flex-wrap: wrap;*/
     }
 
     #nav,
