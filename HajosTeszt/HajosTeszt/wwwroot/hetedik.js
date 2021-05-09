@@ -1,66 +1,90 @@
-﻿function letöltés() {
-    fetch("questions.json")
+﻿window.onload = function () {
+    fetch("questions/count").then(x => x.text()).then(x => { sz = parseInt(x) })
+    document.getElementById("back").onclick = function Vissza() {
+        kérdésSorszám--;
+        //if (kérdésSorszám < 0) {
+        //    kérdésSorszám = kérdések.length - 1;
+        //}
+        if (kérdésSorszám < 1) {
+            kérdésSorszám = sz;
+        }
+        kérdésBetöltés(kérdésSorszám);
+    }
+    document.getElementById("next").onclick = function Előre() {
+        kérdésSorszám++;
+        //if (kérdésSorszám == kérdések.length - 1) {
+        //    kérdésSorszám = 0;
+        if (kérdésSorszám == sz + 1) {
+            kérdésSorszám = 1;
+
+            //}
+        }
+        kérdésBetöltés(kérdésSorszám);
+    }
+}
+kérdésBetöltés(kérdésSorszám);
+}
+
+var kérdések;
+
+var sz;
+var kérdésSorszám = 1;
+var jóVálasz;
+
+function letöltés() {
+    fetch('questions.json')
         .then(response => response.json())
         .then(data => letöltésBefejeződött(data)
         );
 }
 
-function letöltésBefejeződött(d) {
+function letöltésBefejeződött(data) {
     console.log("Sikeres letöltés")
-    console.log(d)
-    kérdések = d;
-}
-
-window.onload = () => {
-    letöltés();
+    console.log(data)
+    kérdések = data;
     kérdésMegjelenítés(0);
-
-    document.getElementById("vissza").onclick = () => {
-
+}
+function kérdésMegjelenítés(kérdésSorszám) {
+    if (!kérdésSorszám) return;
+    console.log(kérdésSorszám);
+    kérdés_szöveg.innerText = kérdésSorszám.questionText
+    válasz1.innerText = kérdésSorszám.answer1
+    válasz2.innerText = kérdésSorszám.answer2
+    válasz3.innerText = kérdésSorszám.answer3
+    jóVálasz = kérdésSorszám.correctAnswer;
+    if (kérdésSorszám.image) {
+        document.getElementById("kép").src = "https://szoft1.comeback.hu/hajo/" + kérdésSorszám.image;
+        document.getElementById("kép").classList.remove("rejtett")
     }
-
-    document.getElementById("előre").onclick = () => {
-
+    else {
+        document.getElementById("kép").classList.add("rejtett")
     }
-
-    document.getElementById("válasz1").onclick = () => {
-        if (kérdések[kérdés].correctAnswer == 1) {
-            this.style.backgorund = "darkgreen";
-        }
-        else {
-            this.style.background = "lightcoral";
-        }
-    }
-
-    document.getElementById("válasz2").onclick = () => {
-        if (kérdések[kérdés].correctAnswer == 2) {
-            this.style.backgorund = "darkgreen";
-        }
-        else {
-            this.style.background = "lightcoral";
-        }
-    }
-
-    document.getElementById("válasz3").onclick = () => {
-        if (kérdések[kérdés].correctAnswer == 3) {
-            this.style.backgorund = "darkgreen";
-        }
-        else {
-            this.style.background = "lightcoral";
-        }
-    }
+    válasz1.classList.remove("jó", "rossz");
+    válasz2.classList.remove("jó", "rossz");
+    válasz3.classList.remove("jó", "rossz");
+}
+function kérdésBetöltés(id) {
+    fetch(`/questions/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                console.error(`Hibás válasz: ${response.status}`)
+                return null;
+            }
+            else {
+                return response.json()
+            }
+        })
+        .then(data => kérdésMegjelenítés(data));
+        .then(data => {
+            if (data) kérdésMegjelenítés(data)
+        });
 }
 
-function kérdésMegjelenítés(kérdés) {
-    document.getElementById("kérdés_szöveg").innerHTML = 'kérdés';
-    let kérdés_szöveg = document.getElementById("kérdés_szöveg");
-    let válasz1 = document.getElementById("válasz1");
-    let válasz2 = document.getElementById("válasz2");
-    let válasz3 = document.getElementById("válasz3");
-
-    kérdés_szöveg.innerHTML = kérdések[kérdés].questionText;
-    kép.scr = "https://szoft1.comeback.hu/hajo/" + kérdések[kérdés].image;
-    válasz1.innerText = kérdések[kérdés].answer1;
-    válasz2.innerText = kérdések[kérdés].answer2;
-    válasz3.innerText = kérdések[kérdés].answer3;
+válasz = function (n) {
+    if (jóVálasz == n) {
+        document.getElementById("válasz" + n).classList.add("jó");
+    }
+    else {
+        document.getElementById("válasz" + n).classList.add("rossz");
+    }
 }
