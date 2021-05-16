@@ -24,10 +24,12 @@
 
         document.getElementById("addButton").addEventListener("click", () => {
 
-            //Ezt fogjuk átküldeni
-            let data = {
-                jokeText: document.getElementById("jokeText").value
-            }
+            document.getElementById("addButton").addEventListener("click", () => {
+
+                //Ezt az objektumot fogjuk átküldeni
+                let data = {
+                    jokeText: document.getElementById("jokeText").value
+                }
 
 
 
@@ -42,11 +44,11 @@
                 }
             ).then(x => {
                 if (x.ok) {
-                    alert("Siker");
+                    alert("Sikeres");
 
                 }
                 else {
-                    alert("Kudarc");
+                    alert("Sikertelen");
                 };
 
             })
