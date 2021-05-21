@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tarot jóslás</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Adorján Bianka">
+    <link rel="stylesheet" href="Tarotdesign.css" />
+    <link rel="icon" href="sunandmoon.png" type="image/x-icon">
+</head>
+<body>
+    <header class="col-12 col-t-12">
+        
+        
+            <h1>Számítógép-hálózatok beadandó</h1>
+            <h1>Adorján Bianka WNXAO6</h1>
+        
+        
+        
+    </header>
+    
+    <div class="tarotcim col-12 col-t-12">
+        <p class="fancyp">~ Tarot jóslás ~</p>
+        <img class="kicsikep" src="sunandmoon.png" alt="Nap és a Hold egybeolvadva">
+    </div>
+
+    <div class="oldal">
+        <div class="joslatadas col-8 col-t-12">
+            <p>Jóslat beküldés:</p>
+            <p>Jósolja meg mások vagy saját jövőjét! Küldje be mit lát a csillagokban még ma!</p> <br />
+
+            <p id="joslatfevetel" class="fancyp">Új jóslat felvétele:</p>
+            <br />
+            <input id="TarotText" type="text" placeholder="Írd be a jóslatod..." />
+            <button id="addButton">Küldés</button>
+            <br /><p></p><br /> <hr /> <br />
+            <p>Inspirációra van szüksége? Semmi pánik, a misztikus Nap mindig segítségünkre lehet!</p>
+            <a href="anap.html" target="_blank">Nézzen a Napba!</a> <br />
+        </div>
+
+        <aside class="col-4 col-t-12">
+            <img class="tarotkartya" src="tarotkartya.png" alt="Tarotkártya">
+        </aside>
+    </div>
+    <footer class="col-12 col-t-12">
+        <p id="footerp">Ez csupán egy kitalált weboldal</p>
+        
+    </footer>
+    <script>
+        document.getElementById("addButton").addEventListener("click", () => {
+
+            //Ezt az objektumot fogjuk átküldeni
+            let data = {
+                TarotText: document.getElementById("TarotText").value
+            }
+
+
+            fetch("api/nev",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+            ).then();
+
+        });
+
+        function joslatBetoltes() {
+            fetch('api/nev')
+                .then(result => {
+                    if (!result.ok) {
+                        console.error(`Hibás letöltés: ${result.status}`);
+                        return null;
+                    }
+                    else {
+                        return result.json();
+                        alert("Elküldve");
+                    }
+                })
+                .then(data => {
+                    for (var i = 0; i < data.length; i++) {
+                        document.getElementById("joslatList").innerHTML += data[i].name += "<br/>"
+                    }
+                })
+        }
+    </script>
+</body>
+</html>
