@@ -32,12 +32,21 @@
             <p id="joslatfevetel" class="fancyp">Új jóslat felvétele:</p>
             <br />
             <input id="TarotText" type="text" placeholder="Írd be a jóslatod..." />
-            <button id="addButton">Küldés</button>
+            <button id="addButton" type="button">Küldés</button>
+            <button type="button">Lista</button>
             <br /><p></p><br /> <hr /> <br />
             <p>Inspirációra van szüksége? Semmi pánik, a misztikus Nap mindig segítségünkre lehet!</p>
             <a href="anap.html" target="_blank">Nézzen a Napba!</a> <br />
-        </div>
+            <div class="ide col-8 col-t-12">
+                
+            </div>
 
+            <div id="ide" class="col-8 col-t-12">
+                
+            </div>
+           
+        </div>
+        
         <aside class="col-4 col-t-12">
             <img class="tarotkartya" src="tarotkartya.png" alt="Tarotkártya">
         </aside>
@@ -47,15 +56,27 @@
         
     </footer>
     <script>
+        document.addEventListener("DOMContentLoaded", x => {
+
+            fetch("api/tarotcontroller").then(x => x.json()).then(x => { showJoslat(x) })
+
+        })
+        window.onload = function () {
+            //kiiratás();
+            //adatÉrkezett();
+            joslatBetoltes();
+            //showJoslat();
+            
+        }
         document.getElementById("addButton").addEventListener("click", () => {
 
             //Ezt az objektumot fogjuk átküldeni
             let data = {
-                TarotText: document.getElementById("TarotText").value
+                tarotszoveg : document.getElementById("TarotText").value
             }
 
 
-            fetch("api/nev",
+            fetch("api/tarotcontroller",
                 {
                     method: 'POST',
                     headers: {
@@ -68,7 +89,7 @@
         });
 
         function joslatBetoltes() {
-            fetch('api/nev')
+            fetch('api/tarotcontroller')
                 .then(result => {
                     if (!result.ok) {
                         console.error(`Hibás letöltés: ${result.status}`);
@@ -76,15 +97,56 @@
                     }
                     else {
                         return result.json();
-                        alert("Elküldve");
+                        
                     }
                 })
                 .then(data => {
                     for (var i = 0; i < data.length; i++) {
-                        document.getElementById("joslatList").innerHTML += data[i].name += "<br/>"
+                        document.getElementById("ide").innerHTML += data[i].tarotszoveg += "<br/>"
                     }
                 })
         }
+        //function showJoslat(j) {
+        //    console.log(j)
+        //    for (var i = 0; i < j.length; i++) {
+        //        console.log(j[i].TarotText)
+        //        let joslat1 = document.createElement("div");
+        //        joslat1.innerHTML = j[i].TarotText;
+        //        document.getElementById("ide").appendChild(joslat1);
+        //    }
+        //}
+
+        //fetch('/joslatok/count')
+        //    .then(response => response.json())
+        //    .then(data => kiiratás(data)
+
+        //    );
+
+        //function kiiratás(lista) {
+        //    console.log(lista)
+        //    for (var i = 0; i < lista.length; i++) {
+        //        let újElem = document.createElement("div");
+        //        újElem.innerText = lista[i];
+        //        document.getElementById("ide").appendChild(újElem);
+        //    }
+        //}
+
+        //fetch("/Wnxao6.json")
+        //    .then(r => r.json())
+        //    .then(d => adatÉrkezett(d));
+
+        //function adatÉrkezett(adat) {
+        //    let ide = document.getElementById("ide");
+        //    console.log(`${adat.length} kérdés érketett`)
+
+        //    for (var i = 0; i < adat.length; i++) {
+        //        console.log(adat[i].questionText)
+        //        let elem = document.createElement("li")
+        //        elem.innerHTML = adat[i].questionText
+        //        ide.appendChild(elem)
+        //    }
+
+       
     </script>
 </body>
 </html>

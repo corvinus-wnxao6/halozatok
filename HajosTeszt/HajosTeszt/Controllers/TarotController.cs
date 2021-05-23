@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HajosTeszt.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tarotcontroller")]
     [ApiController]
     public class TarotController : ControllerBase
     {
