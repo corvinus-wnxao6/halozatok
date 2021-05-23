@@ -33,23 +33,34 @@
             <br />
             <input id="TarotText" type="text" placeholder="Írd be a jóslatod..." />
             <button id="addButton" type="button">Küldés</button>
-            <button type="button">Lista</button>
+            <button id="buttonrefresh" onclick="joslatBetoltes()">Oldal frissítése</button>
+            <p id="joslatfevetel" class="fancyp">Jóslat visszavonás:</p>
+            <input id="törlendő" type="text" placeholder="Írd be a törlendő ID-t..." />
+            <button onclick="torles()">Törlés</button>
             <br /><p></p><br /> <hr /> <br />
             <p>Inspirációra van szüksége? Semmi pánik, a misztikus Nap mindig segítségünkre lehet!</p>
             <a href="anap.html" target="_blank">Nézzen a Napba!</a> <br />
-            <div class="ide col-8 col-t-12">
-                
+            <!--<div class="ide col-8 col-t-12">
+
+    </div>-->
+
+            <div id="oda" class="col-8 col-t-12">
+
             </div>
 
-            <div id="ide" class="col-8 col-t-12">
-                
-            </div>
-           
         </div>
         
         <aside class="col-4 col-t-12">
             <img class="tarotkartya" src="tarotkartya.png" alt="Tarotkártya">
+           
         </aside>
+        <div id="josalotakide" class="col-12 col-t-12">
+            <p>API végpont létrehozása a tábla rekordjainak számának megjelenítésére <a href="api/tarotcontroller/joslatok/count" target="_blank">Link</a> <br /></p>
+            <p>API végpont létrehozása egy rekord lekérdezésére kulcs alapján <a href="api/tarotcontroller/3" target="_blank">Link</a> <br /></p>
+            <p>API végpont létrehozása egy rekord törlésére kulcs alapján (törlés gomb)</p>
+            <p>Eddig beérkezett jóslatok:</p>
+            <p id="ide"></p>
+        </div>
     </div>
     <footer class="col-12 col-t-12">
         <p id="footerp">Ez csupán egy kitalált weboldal</p>
@@ -89,6 +100,11 @@
         });
 
         function joslatBetoltes() {
+            let frissit = document.getElementById("ide");
+            while (frissit.firstChild) {
+                frissit.removeChild(frissit.firstChild);
+            }
+
             fetch('api/tarotcontroller')
                 .then(result => {
                     if (!result.ok) {
@@ -105,6 +121,17 @@
                         document.getElementById("ide").innerHTML += data[i].tarotszoveg += "<br/>"
                     }
                 })
+        }
+
+        function torles() {
+            let data = {
+                SkTarot: parseInt(document.getElementById("törlendő").value)
+            }
+            fetch('api/tarotcontroller/' + data.SkTarot, {
+                method: 'DELETE',
+            })
+                .then(res => res.text())
+                .then(res => console.log(res));
         }
         //function showJoslat(j) {
         //    console.log(j)
